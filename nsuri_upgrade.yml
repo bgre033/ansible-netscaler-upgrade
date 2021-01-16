@@ -1,0 +1,40 @@
+---
+- hosts: ns
+  gather_facts: false
+  vars_files:
+    - ns_upgrade_vars.yml
+  tasks:
+  - name: upgrading ns
+    register: upgrade_task
+    uri:
+      url: https://{{inventory_hostname}}/nitro/v1/config/install
+      validate_certs: no
+      timeout: 1200
+      status_code: 200,201
+      method: POST
+      headers:
+        X-NITRO-USER: "{{ ns_user }}"
+        X-NITRO-PASS: "{{ ns_pass }}"
+      body_format: json
+      body:
+       install:
+         url: "{{ ns_binary_url }}"
+         y: false
+         l: false
+  - set_fact:
+      upgrade_result: "{{ upgrade_task.status }}"
+  - name: rebooting ns
+    uri:
+      url: https://{{inventory_hostname}}/nitro/v1/config/reboot
+      validate_certs: no
+      status_code: 200,201
+      method: POST
+      headers:
+        X-NITRO-USER: "{{ ns_user }}"
+        X-NITRO-PASS: "{{ ns_pass }}"
+      body_format: json
+      body:
+       reboot:
+         warm: false
+    when:
+      upgrade_result == "201"

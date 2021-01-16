@@ -1,0 +1,5 @@
+---
+ns_user: "nsroot"
+ns_pass: "nsroot"
+#ns_binary_url: "http://192.168.1.104/build-13.0-47.24_nc_64.tgz"
+ns_binary_url: "file:///var/nsinstall/12.1-54.13/build-13.0-47.24_nc_64.tgz"
