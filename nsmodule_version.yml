@@ -1,0 +1,19 @@
+---
+- hosts: ns
+  gather_facts: false
+  vars_files:
+    - ns_upgrade_vars.yml
+  tasks:
+  - name: get ns config
+    register: ps
+    netscaler_nitro_request:
+      nsip: "{{ inventory_hostname }}"
+      nitro_user: "{{ ns_user }}"
+      nitro_pass: "{{ ns_pass }}"
+      operation: get_all
+      nitro_protocol: https
+      validate_certs: no
+      resource: nsversion
+  - name:
+    debug:
+      msg: "{{ ps.nitro_object.version }}"

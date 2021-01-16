@@ -1,7 +1,0 @@
----
-ns_user: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          xxx
-ns_pass: !vault |
-          $ANSIBLE_VAULT;1.1;AES256
-          xxx
